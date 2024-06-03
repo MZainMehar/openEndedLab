@@ -21,8 +21,6 @@ function App() {
     comm: ''
   });
 
-  const [message, setMessage] = useState(null);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -40,46 +38,24 @@ function App() {
       },
       body: JSON.stringify(formData)
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Error creating employee');
-        }
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setMessage('Employee created successfully!');
-        setFormData({
-          empNo: '',
-          firstName: '',
-          midinit: '',
-          lastName: '',
-          workDeptId: '',
-          phoneNo: '',
-          hireDate: '',
-          job: '',
-          edLevel: '',
-          gender: '',
-          birthDate: '',
-          salary: '',
-          bonus: '',
-          comm: ''
-        });
       })
       .catch((error) => {
         console.error(error);
-        setMessage('Error creating employee');
       });
   };
 
   return (
     <div className="App">
       {showRecord ? (
-        <EmployeeTable setShowRecord={setShowRecord} />
+        <>
+          <EmployeeTable setShowRecord={setShowRecord} />
+        </>
       ) : (
         <form onSubmit={handleSubmit} style={formStyle}>
           <h2>Employee Form</h2>
-          {message && <p>{message}</p>}
           <div style={{ display: 'flex', gap: 10 }}>
             <div style={inputContainerStyle}>
               <label>Employee Number:</label>
@@ -249,9 +225,7 @@ function App() {
             </div>
           </div>
           <div style={inputContainerStyle}>
-            <button type="submit" style={submitButtonStyle}>
-              Submit
-            </button>
+            <button type="submit" style={submitButtonStyle}>Submit</button>
             <button
               type="button"
               style={submitButtonStyle}
